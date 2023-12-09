@@ -161,9 +161,6 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
     
     best_valid_loss = 9999.
     cur_patience = args.patience
-    if args.loss_limit != None: 
-        loss_limit = args.loss_limit
-    else: loss_limit = 0
 
     print(f"Training {name}#seed_{args.seed}")
     start_t = time.time()
@@ -187,9 +184,9 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
         else:
             cur_patience-=1
             
-        if cur_patience<=0 or best_valid_loss<loss_limit:
+        if cur_patience<=0:
             print(f"Best validation loss: {best_valid_loss:.4f}")
-            if save and best_valid_loss<loss_limit:
+            if save:
                 torch.save(model, f"{save_folder}/{datekey}_{name}#seed_{args.seed}-epoch-{str(epoch)}_FINAL")
             break
         

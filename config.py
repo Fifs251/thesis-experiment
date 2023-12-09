@@ -10,8 +10,7 @@ class ArgObj(object):
         "batch_size": 64,
         "n_classes": 100,
         "dropout": 0.5,
-        "log_interval": 10,
-        "loss_limit": 0.01
+        "log_interval": 10
     }
 
     def __init__(self, **kwargs):
