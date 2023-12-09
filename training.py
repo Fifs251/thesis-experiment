@@ -204,6 +204,8 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
 
     return model
 
+seedlist = [751,456,894,564,483]
+
 def experiment(rounds=5, modified_only=False):
     experiment_start = time.time()
     
@@ -212,12 +214,11 @@ def experiment(rounds=5, modified_only=False):
     for i in range(rounds):
         round_start = time.time()
         
-        my_args = ArgObj(seed=(i+1)*111)
+        my_args = ArgObj(seed=seedlist[(i+1)])
         
         if not modified_only:
-            #trained_model1 = train_cnn(args=my_args, model_arg=AlexNet(), name = "original", datekey=datekey)
-            #trained_model2 = train_cnn(args=my_args, model_arg=AlexNet_Tanh(), name= "modified_tanh", datekey=datekey)
-            trained_model3 = train_cnn(args=my_args, model_arg=mymodels.AlexNet_Tanh(), name= "test", datekey=datekey, save=True)
+            trained_model1 = train_cnn(args=my_args, model_arg=mymodels.AlexNet(), name = "inittest", datekey=datekey, save=False)
+            #trained_model2 = train_cnn(args=my_args, model_arg=mymodels.AlexNet_Tanh(), name= "modified_tanh", datekey=datekey)
 
         round_end = time.time()
         round_duration = round_end-round_start

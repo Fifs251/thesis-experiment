@@ -7,7 +7,7 @@ class ArgObj(object):
         "lr": 0.01,
         "momentum": 0.7,
         "weight_decay": 0.0005,
-        "batch_size": 32,
+        "batch_size": 64,
         "n_classes": 100,
         "dropout": 0.5,
         "log_interval": 10,
