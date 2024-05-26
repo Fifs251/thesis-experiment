@@ -46,15 +46,14 @@ class AlexNet(nn.Module):
                 if counter in [1,3]:
                     m.bias.data.fill_(0)
                 else:
-                    m.bias.data.fill_(1)
+                    m.bias.data.fill_(0)
                 counter+=1
             if isinstance(m, nn.Linear):
                 torch.nn.init.normal_(m.weight, 
                       mean=0, std=0.01)
-                m.bias.data.fill_(1)
+                m.bias.data.fill_(0)
 
-
-class AlexNet_manual_init(nn.Module):
+class AlexNet_anti_DRY(nn.Module):
     def __init__(self, num_classes: int = 100, dropout: float = 0.5):
         super().__init__()
         self.features = nn.Sequential(
@@ -214,7 +213,7 @@ class AlexNet_Tanh(nn.Module):
                 nn.Tanh(),
                 nn.Linear(1024, num_classes),
             )
-        #self.init_weights()
+        self.init_weights()
 
     def forward(self, x):
         x = self.features(x)
@@ -231,12 +230,12 @@ class AlexNet_Tanh(nn.Module):
                 if counter in [1,3]:
                     m.bias.data.fill_(0)
                 else:
-                    m.bias.data.fill_(1)
+                    m.bias.data.fill_(0)
                 counter+=1
             if isinstance(m, nn.Linear):
                 torch.nn.init.normal_(m.weight, 
                       mean=0, std=0.01)
-                m.bias.data.fill_(1)
+                m.bias.data.fill_(0)
 
 class AlexNet_Sigm(nn.Module):
     def __init__(self, num_classes: int = 100, dropout: float = 0.5):
@@ -259,13 +258,13 @@ class AlexNet_Sigm(nn.Module):
         self.classifier = nn.Sequential(
                 nn.Dropout(p=dropout),
                 nn.Linear(256 * 6 * 6, 4096),
-                nn.Sigmoid(),
+                nn.Tanh(),
                 nn.Dropout(p=dropout),
                 nn.Linear(4096, 1024),
-                nn.Sigmoid(),
+                nn.Tanh(),
                 nn.Linear(1024, num_classes),
             )
-        #self.init_weights()
+        self.init_weights()
 
     def forward(self, x):
         x = self.features(x)
@@ -282,9 +281,9 @@ class AlexNet_Sigm(nn.Module):
                 if counter in [1,3]:
                     m.bias.data.fill_(0)
                 else:
-                    m.bias.data.fill_(1)
+                    m.bias.data.fill_(0)
                 counter+=1
             if isinstance(m, nn.Linear):
                 torch.nn.init.normal_(m.weight, 
-                      mean=0, std=0.01)
-                m.bias.data.fill_(1)
+                      mean=2, std=0.01)
+                m.bias.data.fill_(0)
