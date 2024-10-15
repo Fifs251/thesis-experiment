@@ -1,11 +1,10 @@
 import torch
-from sklearn.metrics import confusion_matrix, precision_score, recall_score
+from sklearn.metrics import precision_score, recall_score
 from hierarchy import *
 import numpy as np
 from dataset_module import *
 from trained_models import trained_models
-import matplotlib.pyplot as plt 
-import pickle 
+import pickle
 
 def class_max(input):
     return (torch.max(torch.exp(input), 1)[1]).data.cpu().numpy()
@@ -63,4 +62,4 @@ def save_evaluation():
 
     return my_dict
 
-save_evaluation()
+#save_evaluation()

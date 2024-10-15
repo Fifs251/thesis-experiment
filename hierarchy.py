@@ -20,7 +20,7 @@ def create_ultraclass(x):
 
 v_create_ultraclass = np.vectorize(create_ultraclass)
 
-def get_labels(idx, level='super'):
+def get_labels(idx, level='sub'):
     labels = {
         #'ultra': ['mammal', 'plant', 'household', 'invertebrates', 'other animal', 'vehicles', 'nature'],
         'ultra': ['buildings', 'household', 'invertebrates', 'mammal', 'outdoors', 'other animal', 'plant', 'vehicles'],

@@ -1,4 +1,3 @@
-import pandas as pd
 from tbparse import SummaryReader
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -25,7 +24,7 @@ def tb_plot(fig_tag):
                 ha="left", va="center", transform=ax.transAxes)
         counts = data[f"{fig_tag}/counts"].iloc[0]
         limits = data[f"{fig_tag}/limits"].iloc[0]
-        x = np.linspace(limits[0], limits[-1], 15)
+        x = np.linspace(limits[0], 1, 15)
         x, y = SummaryReader.histogram_to_pdf(counts, limits, x)
         # Draw the densities in a few steps
         sns.lineplot(x=x, y=y, clip_on=False, color="w", lw=2)
@@ -45,4 +44,4 @@ def tb_plot(fig_tag):
 
     g.savefig(f"figs/{fig_tag}.png")
 
-tb_plot('Tanh seed#751 FC2')
+tb_plot('Relu seed#751 FC2')

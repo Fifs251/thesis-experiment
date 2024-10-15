@@ -11,6 +11,7 @@ class ArgObj(object):
         "n_classes": 100,
         "dropout": 0.5,
         "log_interval": 10,
+        "seed": 751,
         "seedlist": [751,456,894,564,483]
     }
 

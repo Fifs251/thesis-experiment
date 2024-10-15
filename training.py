@@ -45,7 +45,7 @@ def train_epoch_cnn(model, train_loader, optimizer, args, print_reduce=False):
                 print(f"[{batch_idx * len(data):.0f}/{len(train_loader.dataset)} ({100. * batch_idx / len(train_loader):.0f}%)]\tloss: {loss.item():.6f}, took {cur_time - t:.2f}s")
             t = cur_time
 
-def test_cnn(model, test_loader, args):
+def test_cnn(model, test_loader, args, print_on=True):
 
     model.eval()  # set model to inference mode (deactivate dropout layers for example)
     test_loss = 0  # init overall loss
@@ -56,6 +56,7 @@ def test_cnn(model, test_loader, args):
         
         for data, target in test_loader:  # iterate over test data
             data, target = data.to(args.device), target.to(args.device)  # move data to device 
+            model = model.to(args.device)
             output = model(data) # forward pass
             # claculate loss and add it to our cumulative loss
             test_loss += criterion_mean(output, target).item()
@@ -67,8 +68,9 @@ def test_cnn(model, test_loader, args):
     test_loss /= len(test_loader.dataset)  # calc mean loss
     test_acc = (100 * correct / total)
     
-    print('Average eval loss: {:.4f}'.format(test_loss, len(test_loader.dataset)))
-    print('Eval accuracy: {:.4f}%\n'.format(test_acc))
+    if print_on:
+        print('Average eval loss: {:.4f}'.format(test_loss, len(test_loader.dataset)))
+        print('Eval accuracy: {:.4f}%\n'.format(test_acc))
     return test_loss
 
 def inference_cnn(model, data, args):
@@ -84,6 +86,7 @@ def inference_cnn(model, data, args):
             # calculate output for input data (and move back from device)
             output[idx+side, :] = model(data[:, idx:(idx + args.context), :])[0, :].cpu()
     return output
+
 
 def get_activation(model_name, layer_name, epoch, seed, writer):
     def hook(inst, inp, out):
@@ -117,12 +120,12 @@ def hook_write_to_TB(model, epoch, model_name, seed, writer):
     handle3.remove()
     handle4.remove()
     handle5.remove()
-    
+
 ## Training
 def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name="undefined", datekey="000101", save=True, save_folder="./models", tensorboard = False, print_reduce=False):
     
     if smoke_test:
-        max_epochs = 2
+        max_epochs = 10
     else:
         max_epochs = args.max_epochs
     
@@ -137,6 +140,9 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
     
     best_valid_loss = 9999.
     cur_patience = args.patience
+
+    if tensorboard:
+        writer = tb_init()
 
     print(f"Training {name}#seed_{args.seed}")
     start_t = time.time()
@@ -153,7 +159,6 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
         cur_valid_loss = test_cnn(model, val_loader, args)
 
         if tensorboard:
-            writer = tb_init()
             hook_write_to_TB(model, epoch, name, args.seed, writer)
             writer.add_scalar(("Loss/train "+name), cur_valid_loss, epoch)
 
@@ -181,7 +186,7 @@ def train_cnn(smoke_test=False, args=my_args, model_arg=mymodels.AlexNet(), name
 
     return model
 
-seedlist = [751,456,894,564,483]
+seedlist = my_args.seedlist
 
 def experiment(rounds=5, modified_only=False):
     experiment_start = time.time()
@@ -208,4 +213,4 @@ def experiment(rounds=5, modified_only=False):
     
     print(f"Full experiment duration: {datetime.timedelta(seconds=experiment_duration)}")
 
-experiment()
+#experiment()

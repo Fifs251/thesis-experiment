@@ -62,16 +62,14 @@ def eval_plot_all():
         plt.plot(x, y1, label = "ReLU" if cnt == 0 else "", linestyle='dashed', marker="x")
         plt.plot(x, y2, label = "Tanh" if cnt == 0 else "", linestyle='dashed', marker="x")
         plt.xticks(np.arange(1,4), ["sub", "super", "ultra"])
-        plt.title(f'Seed: {seed}')
+        plt.title(f'Seed: {seed}', fontsize=20)
 
         cnt+=1
         
-    fig.legend() 
-    fig.savefig('figs/eval_all.png')
+    fig.legend(loc='lower right', bbox_to_anchor=(0.79, 0.39), fontsize=20, markerscale=1.5) 
+    fig.savefig('figs/eval_all.png', dpi=500)
 
 eval_plot_all()
-
-print(plt.rcParams)
 
 def eval_plot_one():
 
@@ -90,6 +88,6 @@ def eval_plot_one():
     plt.plot(x, y2, label = "Tanh", linestyle='dashed', marker="x")
 
     plt.legend() 
-    plt.savefig('figs/eval_one.png')
+    plt.savefig('figs/eval_one.png', dpi=500)
 
 eval_plot_one()

@@ -51,20 +51,33 @@ def plot_two_CMs(types = ["orig", "mod"], idxs = [0, 0], titles = ["ReLU", "Tanh
     add_borders(fig, axs)
     
     for ax in axs: 
-        ax.axis('off') 
-        ax.grid(True)
+        #ax.axis('off')
+        #ax.grid(True)
+        ax.set_xticks(range(100))
+        ax.set_xticklabels(v_get_labels(sorted_labels, "sub"), rotation=90, fontsize=8)
+        ax.set_yticks(range(100))
+        ax.set_yticklabels(v_get_labels(sorted_labels, "sub"), fontsize=5)
 
     fig.colorbar(im, ax=axs.ravel().tolist())
 
-    plt.savefig('figs/CM_comparison_two.png')
+    plt.savefig('figs/CM_comparison_two.png', dpi=500)
 
-#plot_two_CMs()
+plot_two_CMs()
 
 def plot_all_CMs():
 
     fig, axs = plt.subplots(5, 2, figsize = (25,50))
     fig.tight_layout()
     
+    plt.subplots_adjust(
+        left  = 0.125,  # the left side of the subplots of the figure
+        right = 0.9,    # the right side of the subplots of the figure
+        bottom = 0.1,   # the bottom of the subplots of the figure
+        top = 0.9,      # the top of the subplots of the figure
+        wspace = 0.08,   # the amount of width reserved for blank space between subplots
+        hspace = 0.15   # the amount of height reserved for white space between subplots
+    )
+
     types = ["orig", "mod"]
     titles = ["ReLU", "Tanh"]
 
@@ -77,11 +90,15 @@ def plot_all_CMs():
     add_borders(fig, axs.flat)
 
     for ax in axs.flat: 
-        ax.axis('off') 
-        ax.grid(True)
+        #ax.axis('off') 
+        #ax.grid(True)
+        ax.set_xticks(range(100))
+        ax.set_xticklabels(v_get_labels(sorted_labels, "sub"), rotation=90, fontsize=8)
+        ax.set_yticks(range(100))
+        ax.set_yticklabels(v_get_labels(sorted_labels, "sub"), fontsize=5)
 
     #fig.colorbar(im, ax=axs.ravel().tolist())
 
-    plt.savefig('figs/CM_comparison_all.png')
+    plt.savefig('figs/CM_comparison_all.png', dpi=500)
 
 plot_all_CMs()

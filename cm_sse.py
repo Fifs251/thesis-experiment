@@ -39,7 +39,7 @@ def SSE_plot():
 
         df_cm = pd.DataFrame(cms["mod"][i])
         cm_fig = sn.heatmap(df_cm, annot=False).get_figure()
-        cm_fig.savefig(f"figs/CM_mod_#{cms['seeds'][i]}.png")
+        cm_fig.savefig(f"figs/CM_mod_#{cms['seeds'][i]}.png", dpi=500)
 
     fig, ax = plt.subplots(1,1)
 
@@ -52,7 +52,7 @@ def SSE_plot():
     ax.set_yticklabels(ticklabs)
     plt.colorbar(img)
 
-    fig.savefig(f"figs/SSE_plot.png")
+    fig.savefig(f"figs/SSE_plot.png", dpi=500)
     
     #writer.add_figure("SSEs", fig.colorbar(img))
 
