@@ -12,4 +12,7 @@ cm_sse.py - calculate similarity of CMs \
 cm_comparison.py - side-by-side plots of CMs \
 eval_plot.py - hierarchical accuracy slope plots \
 tb_plot_histogram.py - extract activations histogram from TensorBoard (appendix - sigmoid saturation) \
-models_management.py - bulk delete saved models to save space and run training again
+models_management.py - bulk delete saved models to save space and run training again \
+metrics_over_epochs.py - plots of metrics per epoch \
+output_probabilities.py - plotting and collection of output probabilities \
+zero_centered_analysis.py - analysis of the impact of activation functions being zero-centered
